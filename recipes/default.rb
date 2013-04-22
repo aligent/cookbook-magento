@@ -38,29 +38,35 @@ if node[:magento][:gen_cfg]
     home "#{node[:magento][:dir]}"
     system true
   end
+end
 
-#@TODO: Don't want this to automatically create a dir, should create a configurable attribute to test whether or not to do this.
-#directory "#{node[:magento][:dir]}" do
-#  owner "#{node[:magento][:user]}"
-#  group "www-data"
-#  mode "0755"
-#  action :create
-#  recursive true
-#end
-#
-#if node[:magento][:gen_cfg]
-#  directory "#{node[:magento][:dir]}/app/etc" do
-#    owner "#{node[:magento][:user]}"
-#    group "www-data"
-#    mode "0755"
-#    action :create
-#    recursive true
-#  end
-#  template "#{node[:magento][:dir]}/app/etc/local.xml" do
-#    source "local.xml.erb"
-#    mode "0600"
-#    owner "#{node[:magento][:user]}"
-#    group "www-data"
-#    variables(:database => node[:magento][:db])
-#  end
-#end
+if node[:magento][:gen_cfg]
+  user "#{node[:magento][:user]}" do
+    comment "magento guy"
+    home "#{node[:magento][:dir]}"
+    system true
+  end
+
+  directory "#{node[:magento][:dir]}" do
+    owner "#{node[:magento][:user]}"
+    group "www-data"
+    mode "0755"
+    action :create
+    recursive true
+  end
+
+  directory "#{node[:magento][:dir]}/app/etc" do
+    owner "#{node[:magento][:user]}"
+    group "www-data"
+    mode "0755"
+    action :create
+    recursive true
+  end
+  template "#{node[:magento][:dir]}/app/etc/local.xml" do
+    source "local.xml.erb"
+    mode "0600"
+    owner "#{node[:magento][:user]}"
+    group "www-data"
+    variables(:database => node[:magento][:db])
+  end
+end

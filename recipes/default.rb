@@ -20,7 +20,7 @@ when "rhel", "fedora"
     node.set[:php][:packages] = ['php', 'php-devel', 'php-cli', 'php-pear', 'php-curl', 'php-gd', 'php-mcrypt', 'php-mysql', 'php-pecl-apc']
   end
 else
-  node.set[:php][:packages] = ['php5-cli', 'php5-common', 'php5-curl', 'php5-gd', 'php5-mcrypt', 'php5-mysql', 'php-pear', 'php-apc']
+  node.set[:php][:packages] = ['php5-cli', 'php5-common', 'php5-curl', 'php5-gd', 'php5-mcrypt', 'php5-mysql', 'php-pear', 'php-apc', 'php-mbstring']
 end
 include_recipe "php::package"
 

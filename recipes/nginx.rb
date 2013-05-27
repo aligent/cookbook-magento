@@ -8,16 +8,18 @@ else
   server_fqdn = node.fqdn
 end
 
-bash "Tweak FPM php.ini file" do
-  cwd "/etc/php5/fpm"
-  code <<-EOH
-  sed -i 's/memory_limit = .*/memory_limit = 128M/' php.ini
-  sed -i 's/;realpath_cache_size = .*/realpath_cache_size = 32K/' php.ini
-  sed -i 's/;realpath_cache_ttl = .*/realpath_cache_ttl = 7200/' php.ini
-  EOH
-  notifies :restart, resources(:service => "php-fpm")
+case node['platform_family']
+when 'debian', 'ubuntu'
+    bash "Tweak FPM php.ini file" do
+      cwd "/etc/php5/fpm"
+      code <<-EOH
+      sed -i 's/memory_limit\s*=\s*.*/memory_limit = 128M/' php.ini
+      sed -i 's/;\s*realpath_cache_size\s*=\s*.*/realpath_cache_size = 32K/' php.ini
+      sed -i 's/;\s*realpath_cache_ttl\s*=\s*.*/realpath_cache_ttl = 7200/' php.ini
+      EOH
+      notifies :restart, resources(:service => "php-fpm")
+    end
 end
-
 directory "#{node[:nginx][:dir]}/ssl" do
   owner "root"
   group "root"
@@ -70,7 +72,8 @@ end
   end
 end
 
-execute "ensure correct ownership" do
-  command "chown -R #{node[:magento][:user]}:#{node[:nginx][:user]} #{node[:magento][:dir]}"
-  action :run
-end
+#@TODO: Don't want this to automatically create a dir, should create a configurable attribute to test whether or not to do this.
+#execute "ensure correct ownership" do
+#  command "chown -R #{node[:magento][:user]}:#{node[:nginx][:user]} #{node[:magento][:dir]}"
+#  action :run
+#end

@@ -11,24 +11,33 @@ else
 end
 
 ## @TODO: Tidy this up, this is a work in progress. The canonical list of packages is for ubuntu (the default), the others should be the same.
-case node["platform_family"]
+case node[:platform_family]
 when "rhel", "fedora"
   include_recipe "yum::epel"
-  if node['platform_version'].to_f < 6 then
-    node.set['php']['packages'] = ['php53', 'php53-devel', 'php53-cli', 'php-pear']  // TODO Incomplete
+  if node[:platform_version].to_f < 6 then
+    node.set[:php][:packages] = ['php53', 'php53-devel', 'php53-cli', 'php-pear']  # TODO Incomplete
   else
-    node.set['php']['packages'] = ['php', 'php-devel', 'php-cli', 'php-pear', 'php-curl', 'php-gd', 'php-mcrypt', 'php-mysql', 'php-pecl-apc']
+    node.set[:php][:packages] = ['php', 'php-devel', 'php-cli', 'php-pear', 'php-curl', 'php-gd', 'php-mcrypt', 'php-mysql', 'php-pecl-apc']
   end
 else
-  node.set['php']['packages'] = ['php5-cli', 'php5-common', 'php5-curl', 'php5-gd', 'php5-mcrypt', 'php5-mysql', 'php-pear', 'php-apc']
+  node.set[:php][:packages] = ['php5-cli', 'php5-common', 'php5-curl', 'php5-gd', 'php5-mcrypt', 'php5-mysql', 'php-pear', 'php-apc']
 end
+include_recipe "php::package"
 
-cookbook_file "#{node[:php][:conf_dir]}/php.d/zz-aligent.ini" do
-  source "zz-aligent.ini"
+template "#{node[:php][:ext_conf_dir]}/zz-aligent.ini" do
+  source "zz-aligent.ini.erb"
   mode 0644
   owner "root"
   group "root"
-  notifies :run, resources(:bash => "Create Local PHP Config"), :immediately
+  #notifies :run, resources(:bash => "Create Local PHP Config"), :immediately
+end
+
+if node[:magento][:gen_cfg]
+  user "#{node[:magento][:user]}" do
+    comment "magento guy"
+    home "#{node[:magento][:dir]}"
+    system true
+  end
 end
 
 if node[:magento][:gen_cfg]

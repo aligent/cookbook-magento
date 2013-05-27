@@ -11,7 +11,7 @@ server {
   ssl_certificate_key ssl/magento.pem;
   access_log  <%= node[:nginx][:log_dir] %>/magento-ssl.access.log;
 <% else %>
-  listen 80;
+  listen 81;
   access_log  <%= node[:nginx][:log_dir] %>/magento.access.log;
 <% end %>
 

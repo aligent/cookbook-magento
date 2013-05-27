@@ -18,3 +18,7 @@ default[:magento][:nginx][:fastcgi_process] = "unix:/var/run/php-fpm-www.sock"
 
 set_unless[:magento][:db][:password] = secure_password
 set_unless[:magento][:admin][:password] = secure_password
+
+default['n98magerun']['revision'] = 'master'
+default['modman']['revision'] = 'master'
+

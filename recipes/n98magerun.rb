@@ -18,6 +18,12 @@ bash "copy newest magerun" do
   code <<-EOF
   cp n98-magerun.phar /usr/local/bin
   chmod 755 /usr/local/bin/n98-magerun.phar
+  cp autocompletion/bash/bash_complete /etc/bash_completion.d/n98-magerun
+  chmod 644 /etc/bash_completion.d/n98-magerun 
   EOF
+end
+
+package "bash-completion" do
+  action :install
 end
 

@@ -18,6 +18,13 @@ bash "copy newest magerun" do
   code <<-EOF
   cp modman /usr/local/bin
   chmod 755 /usr/local/bin/modman
+  cp bash_completion /etc/bash_completion.d/modman
+  chmod 644 /etc/bash_completion.d/modman
   EOF
 end
+
+package "bash-completion" do
+  action :install
+end
+
 

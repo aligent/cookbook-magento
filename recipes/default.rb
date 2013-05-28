@@ -70,3 +70,16 @@ if node[:magento][:gen_cfg]
     variables(:database => node[:magento][:db])
   end
 end
+
+package "bash-completion" do
+  action :install
+end
+
+template "/etc/bash_completion.d/git" do
+  source "git.erb"
+  mode 0644
+  owner "root"
+  group "root"
+  #notifies :run, resources(:bash => "Create Local PHP Config"), :immediately
+end
+

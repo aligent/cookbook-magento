@@ -1,0 +1,6 @@
+#!/bin/bash
+PIDS=`ps -d -o pid,cmd k-rss | grep php-cgi | grep -v grep | head -n 2 | awk '{print $1}'`
+for PID in $PIDS; do
+	kill $PID
+done
+

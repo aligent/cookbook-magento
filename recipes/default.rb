@@ -17,7 +17,7 @@ when "rhel", "fedora"
   if node[:platform_version].to_f < 6 then
     node.set[:php][:packages] = ['php53', 'php53-devel', 'php53-cli', 'php-pear']  # TODO Incomplete
   else
-    node.set[:php][:packages] = ['php', 'php-devel', 'php-cli', 'php-pear', 'php-curl', 'php-gd', 'php-mcrypt', 'php-mysql', 'php-pecl-apc']
+    node.set[:php][:packages] = ['php', 'php-devel', 'php-cli', 'php-pear', 'php-curl', 'php-gd', 'php-mcrypt', 'php-mysql', 'php-pecl-apc', 'php-mbstring']
   end
 else
   node.set[:php][:packages] = ['php5-cli', 'php5-common', 'php5-curl', 'php5-gd', 'php5-mcrypt', 'php5-mysql', 'php-pear', 'php-apc', 'php-mbstring']

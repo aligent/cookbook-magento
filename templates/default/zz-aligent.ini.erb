@@ -74,7 +74,9 @@ apc.user_ttl=300
 ; apc.filters so that files are only cached if matched by a positive filter.
 apc.cache_by_default=1
 ; Setting this enables APC for the CLI version of PHP (Mostly for testing and debugging).
-apc.enable_cli=1
+; Turning off to ensure compatibilty wih n98-magerun.phar 
+; ref: https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fnetz98%2Fn98-magerun%2Fissues%2F153&sa=D&sntz=1&usg=AFQjCNF0Pd9fN6AX1p-TcmQ4BLCIY1zr8Q
+apc.enable_cli=0
 ; Verification with ctime will avoid problems caused by programs such as svn or rsync by making
 ; sure inodes havn't changed since the last stat. APC will normally only check mtime.
 apc.stat_ctime=1

@@ -10,6 +10,7 @@ default[:magento][:db][:database] = "magentodb"
 default[:magento][:db][:username] = "magentouser"
 default[:magento][:admin][:email] = "webmaster@localhost"
 default[:magento][:admin][:user] = "admin"
+default[:magento][:server_params] = {}
 
 # Default FastCGI Process
 default[:magento][:nginx][:fastcgi_process] = "unix:/var/run/php-fpm-www.sock"
@@ -21,4 +22,5 @@ set_unless[:magento][:admin][:password] = secure_password
 
 default['n98magerun']['revision'] = 'master'
 default['modman']['revision'] = 'master'
+
 

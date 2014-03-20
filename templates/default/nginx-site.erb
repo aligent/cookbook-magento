@@ -34,6 +34,9 @@ server {
     fastcgi_param MAGE_RUN_TYPE <%= node[:magento][:run_type] %>;
     fastcgi_param MAGE_RUN_CODE $magesite;
     fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    <% node[:magento][:server_params].each do |param, value| %>
+    fastcgi_param <%= "#{param} #{value}" %>;
+    <% end %>
     <% if @ssl %>fastcgi_param HTTPS on;<% end %>
     if (-e $request_filename) { # check if requested path exists
       fastcgi_pass <%= node[:magento][:nginx][:fastcgi_process] %>;
@@ -52,6 +55,9 @@ server {
     fastcgi_param MAGE_RUN_CODE $magesite;
     fastcgi_param SCRIPT_FILENAME $document_root/index.php;
     fastcgi_param SCRIPT_NAME /index.php;
+    <% node[:magento][:server_params].each do |param, value| %>
+    fastcgi_param <%= "#{param} #{value}" %>;
+    <% end %>
     <% if @ssl %>fastcgi_param HTTPS on;<% end %>
     # rewrite - if file not found, pass it to the backend
     if (!-f $request_filename) {
